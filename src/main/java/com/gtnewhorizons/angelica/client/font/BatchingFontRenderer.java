@@ -42,6 +42,8 @@ public class BatchingFontRenderer {
      * drop shadows.
      */
     private int[] colorCode;
+    /** Whether the mixin into the font renderer should be paused. */
+    private boolean pauseInject = false;
     /** Location of the primary font atlas to bind. */
     protected final ResourceLocation locationFontTexture;
 
@@ -579,5 +581,21 @@ public class BatchingFontRenderer {
         FontProvider fp = FontStrategist.getFontProvider(chr, isSGA, FontConfig.enableCustomFont, underlying.getUnicodeFlag());
 
         return fp.getXAdvance(chr) * this.getGlyphScaleX();
+    }
+
+    /**
+     * Allows the inject replacing the minecraft's font renderer to be paused.
+     * Use sparingly
+     */
+    public void pauseInject() {
+        pauseInject = true;
+    }
+
+    public void unPauseInject() {
+        pauseInject = false;
+    }
+
+    public boolean injectPaused() {
+        return pauseInject;
     }
 }

@@ -136,7 +136,7 @@ public abstract class MixinFontRenderer implements FontRendererAccessor, IFontPa
     @Inject(method = "drawString(Ljava/lang/String;IIIZ)I", at = @At("HEAD"), cancellable = true)
     public void angelica$BatchedFontRendererDrawString(String text, int x, int y, int argb, boolean dropShadow, CallbackInfoReturnable<Integer> cir)
     {
-        if (GLStateManager.getListMode() == 0) {
+        if (GLStateManager.getListMode() == 0 && !angelica$batcher.injectPaused()) {
             cir.setReturnValue(angelica$drawStringBatched(text, x, y, argb, dropShadow));
         }
     }
@@ -146,7 +146,7 @@ public abstract class MixinFontRenderer implements FontRendererAccessor, IFontPa
      */
     @Inject(method = "renderString", at = @At("HEAD"), cancellable = true)
     public void angelica$BatchedFontRendererRenderString(String text, int x, int y, int argb, boolean dropShadow, CallbackInfoReturnable<Integer> cir) {
-        if (GLStateManager.getListMode() == 0) {
+        if (GLStateManager.getListMode() == 0 && !angelica$batcher.injectPaused()) {
             cir.setReturnValue(angelica$drawStringBatched(text, x, y, argb, dropShadow));
         }
     }
